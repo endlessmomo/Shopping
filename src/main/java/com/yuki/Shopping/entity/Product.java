@@ -1,13 +1,19 @@
 package com.yuki.Shopping.entity;
 
 import com.yuki.Shopping.constant.ProductStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 @Table(name = "product")
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Product {
     @Id
