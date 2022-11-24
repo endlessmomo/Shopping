@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
@@ -50,7 +51,8 @@ class ProductRepositoryTest {
     @DisplayName("상품 저장 테스트 2")
     void createItemTest2() {
         //given
-        for (int i = 1; i <= 5; i++) {
+
+        IntStream.range(1,6).forEach(i -> {
             Product product = Product.builder()
                     .productName("테스트 상품 " + i)
                     .price(10000 + i).productDetail("테스트 상품 상세 설명 " + i)
@@ -58,8 +60,21 @@ class ProductRepositoryTest {
                     .stockCount(100)
                     .registered_date(LocalDateTime.now())
                     .updated_date(LocalDateTime.now()).build();
+
             productRepository.save(product);
-        }
+        });
+
+//        for (int i = 1; i <= 5; i++) {
+//            Product product = Product.builder()
+//                    .productName("테스트 상품 " + i)
+//                    .price(10000 + i).productDetail("테스트 상품 상세 설명 " + i)
+//                    .productStatus(ProductStatus.SELL)
+//                    .stockCount(100)
+//                    .registered_date(LocalDateTime.now())
+//                    .updated_date(LocalDateTime.now()).build();
+//            productRepository.save(product);
+//        }
+
         for (int i = 6; i <= 10; i++) {
             Product product = Product.builder()
                     .productName("테스트 상품 " + i)
@@ -161,7 +176,7 @@ class ProductRepositoryTest {
     @DisplayName("Querydsl 조회테스트1")
     void queryDslTest() {
         //given
-        this.createItemTest();
+        this.createItemTest2();
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QProduct qProduct = QProduct.product;
         JPAQuery <Product> query = queryFactory.selectFrom(qProduct)
