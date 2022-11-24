@@ -1,0 +1,32 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<h1> 상품 리스트 출력 예제</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <td>순번</td>
+        <td>상품명</td>
+        <td>상품 설명</td>
+        <td>가격</td>
+        <td>상품 등록일</td>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="productDto, status: ${productDtoList}">
+            <td th:if="${status.even}" th:text="짝수"></td>
+            <td th:unless="${status.even}" th:text="홀수"></td>
+            <td th:text="${productDto.productName}"></td>
+            <td th:text="${productDto.productDetail}"></td>
+            <td th:text="${productDto.price}"></td>
+            <td th:text="${productDto.registered_date}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
