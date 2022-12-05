@@ -5,8 +5,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter @Setter
-@Table(name="cart_id")
+@Getter
+@Setter
+@Table(name = "cart_id")
 @Entity
 public class CartItem {
     @Id
@@ -14,11 +15,11 @@ public class CartItem {
     @Column(name = "cart_item_Id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="cart_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
