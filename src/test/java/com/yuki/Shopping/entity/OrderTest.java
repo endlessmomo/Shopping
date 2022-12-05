@@ -2,6 +2,7 @@ package com.yuki.Shopping.entity;
 
 import com.yuki.Shopping.constant.ProductStatus;
 import com.yuki.Shopping.repository.MemberRepository;
+import com.yuki.Shopping.repository.OrderItemRepository;
 import com.yuki.Shopping.repository.OrderRepository;
 import com.yuki.Shopping.repository.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +31,9 @@ class OrderTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    OrderItemRepository orderItemRepository;
 
     @PersistenceContext
     EntityManager em;
@@ -112,5 +116,23 @@ class OrderTest {
         order.getOrderItems().remove(0);
         //then
         em.flush();
+    }
+
+    @Test
+    @DisplayName("지연 로딩 테스트")
+    void lazyLoadingTest(){
+        //given
+        Order order = this.createOrder();
+        Long orderItemId = order.getOrderItems().get(0).getId();
+        //when
+        em.flush();
+        em.clear();
+        //then
+        OrderItem orderItem = orderItemRepository.findById(orderItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        System.out.println("Order class : " + orderItem.getOrder().getClass());
+        System.out.println("===========================");
+        orderItem.getOrder().getOrderDate();
+        System.out.println("===========================");
     }
 }
