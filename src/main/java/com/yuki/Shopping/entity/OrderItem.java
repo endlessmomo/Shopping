@@ -3,14 +3,13 @@ package com.yuki.Shopping.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class OrderItem {
+public class OrderItem extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_item_id")
@@ -26,7 +25,4 @@ public class OrderItem {
 
     private int orderPrice;
     private int count;
-
-    private LocalDateTime registered_date;
-    private LocalDateTime updated_date;
 }
