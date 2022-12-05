@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class OrderItem extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "order_item_id")
+    @Column(name = "order_product_id")
     private Long id;
 
     @ManyToOne ( fetch = FetchType.LAZY)
