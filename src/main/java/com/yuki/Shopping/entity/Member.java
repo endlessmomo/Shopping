@@ -14,11 +14,11 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="member")
+@Table(name = "member")
 @Entity
-public class Member {
+public class Member extends BaseEntity {
     @Id
-    @Column(name="memeber_id")
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -35,14 +35,13 @@ public class Member {
     private Role role;
 
     public static Member createMember(MemberFormDto memberFormDto,
-                                        PasswordEncoder passwordEncoder){
-        Member member = Member.builder()
+            PasswordEncoder passwordEncoder) {
+
+        return Member.builder()
                 .email(memberFormDto.getEmail())
                 .name(memberFormDto.getName())
                 .address(memberFormDto.getAddress())
                 .password(passwordEncoder.encode(memberFormDto.getPassword()))
-                .role(Role.USER).build();
-
-        return member;
+                .role(Role.ADMIN).build();
     }
 }
