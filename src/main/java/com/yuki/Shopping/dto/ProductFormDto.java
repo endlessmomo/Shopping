@@ -26,7 +26,7 @@ public class ProductFormDto {
     private String productDetail;
 
     @NotNull(message = "재고는 필수 입력 값입니다.")
-    private String stockCnt;
+    private Integer stockCnt;
 
     private ProductStatus productStatus;
 
