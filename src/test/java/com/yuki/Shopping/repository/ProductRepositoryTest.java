@@ -41,8 +41,7 @@ class ProductRepositoryTest {
                     .price(10000 + i).productDetail("테스트 상품 상세 설명 " + i)
                     .productStatus(ProductStatus.SELL)
                     .stockCount(100)
-                    .registered_date(LocalDateTime.now())
-                    .updated_date(LocalDateTime.now()).build();
+                    .build();
             productRepository.save(product);
         }
     }
@@ -58,8 +57,7 @@ class ProductRepositoryTest {
                     .price(10000 + i).productDetail("테스트 상품 상세 설명 " + i)
                     .productStatus(ProductStatus.SELL)
                     .stockCount(100)
-                    .registered_date(LocalDateTime.now())
-                    .updated_date(LocalDateTime.now()).build();
+                    .build();
 
             productRepository.save(product);
         });
@@ -81,8 +79,7 @@ class ProductRepositoryTest {
                     .price(10000 + i).productDetail("테스트 상품 상세 설명 " + i)
                     .productStatus(ProductStatus.SOLD_OUT)
                     .stockCount(100)
-                    .registered_date(LocalDateTime.now())
-                    .updated_date(LocalDateTime.now()).build();
+                    .build();
             productRepository.save(product);
         }
     }

@@ -46,8 +46,6 @@ class OrderTest {
                 .productDetail("상세 설명")
                 .productStatus(ProductStatus.SELL)
                 .stockCount(100)
-                .registered_date(LocalDateTime.now())
-                .updated_date(LocalDateTime.now())
                 .build();
 
         productRepository.save(product);

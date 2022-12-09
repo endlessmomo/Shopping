@@ -1,13 +1,13 @@
 package com.yuki.Shopping.entity;
 
 import com.yuki.Shopping.constant.ProductStatus;
+import com.yuki.Shopping.dto.ProductFormDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -15,19 +15,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Product {
+public class Product extends BaseEntity{
     @Id
     @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, length= 50)
+    @Column(nullable = false, length = 50)
     private String productName;
 
     @Column(name = "price", nullable = false)
     private int price;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private int stockCount;
 
     @Column(nullable = false)
@@ -36,6 +36,11 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductStatus productStatus;
 
-    private LocalDateTime registered_date;
-    private LocalDateTime updated_date;
+    public void updateProduct(ProductFormDto productFormDto) {
+        this.productName = productFormDto.getProductName();
+        this.price = productFormDto.getPrice();
+        this.stockCount = productFormDto.getStockCnt();
+        this.productDetail = productFormDto.getProductDetail();
+        this.productStatus = productFormDto.getProductStatus();
+    }
 }
