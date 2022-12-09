@@ -22,19 +22,18 @@ public class ProductImgService {
     private final FileService fileService;
 
     public void saveProductImg(ProductImg productImg, MultipartFile productImgFile)
-            throws Exception
-        {
-            String oriImgName = productImgFile.getOriginalFilename();
-            String imgName = "";
-            String imgUrl = "";
+            throws Exception {
+        String oriImgName = productImgFile.getOriginalFilename();
+        String imgName = "";
+        String imgUrl = "";
 
-            if(!StringUtils.isEmpty(oriImgName)){
-                imgName = fileService.uploadFiles(productImgLocation, oriImgName
-                        , productImgFile.getBytes());
-                imgUrl = "/images/product/" + imgName;
-            }
+        if (!StringUtils.isEmpty(oriImgName)) {
+            imgName = fileService.uploadFiles(productImgLocation, oriImgName
+                    , productImgFile.getBytes());
+            imgUrl = "/images/product/" + imgName;
+        }
 
-            productImg.updateProductImg(oriImgName, imgName, imgUrl);
-            productImgRepository.save(productImg);
+        productImg.updateProductImg(oriImgName, imgName, imgUrl);
+        productImgRepository.save(productImg);
     }
 }
