@@ -1,6 +1,5 @@
 package com.yuki.Shopping.controller;
 
-import com.yuki.Shopping.dto.ProductDto;
 import com.yuki.Shopping.dto.ProductFormDto;
 import com.yuki.Shopping.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -68,10 +67,9 @@ public class ProductController {
         return "product/productForm";
     }
 
-    @PostMapping
-    public String productUpdate(@Valid ProductFormDto productFormDto,
-            BindingResult bindingResult, @RequestParam("productImgFile") List <MultipartFile>
-            productImgFileList, Model model) {
+    @PostMapping(value = "/admin/product/{productId}")
+    public String productUpdate(@Valid ProductFormDto productFormDto, BindingResult bindingResult,
+            @RequestParam("productImgFile") List <MultipartFile> productImgFileList, Model model) {
         if (bindingResult.hasErrors()) {
             return "product/productForm";
         }
@@ -81,9 +79,9 @@ public class ProductController {
             return "product/productForm";
         }
 
-        try{
+        try {
             productService.updateProduct(productFormDto, productImgFileList);
-        }catch (Exception e){
+        } catch (Exception e) {
             model.addAttribute("errorMessage", "상품 수정 중 에러가 발생하였습니다.");
             return "product/productForm";
         }
