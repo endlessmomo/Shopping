@@ -14,6 +14,7 @@ public class ProductDto {
     private String productName;
     private Integer price;
     private String productDetail;
+    private Long stockCnt;
     private String sellStatus;
     private LocalDateTime registered_date;
     private LocalDateTime updated_date;

@@ -45,7 +45,7 @@ class OrderTest {
                 .price(10000)
                 .productDetail("상세 설명")
                 .productStatus(ProductStatus.SELL)
-                .stockCount(100)
+                .stockCnt(100)
                 .build();
 
         productRepository.save(product);

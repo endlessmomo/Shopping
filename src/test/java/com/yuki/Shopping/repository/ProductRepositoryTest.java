@@ -40,7 +40,7 @@ class ProductRepositoryTest {
                     .productName("테스트 상품 " + i)
                     .price(10000 + i).productDetail("테스트 상품 상세 설명 " + i)
                     .productStatus(ProductStatus.SELL)
-                    .stockCount(100)
+                    .stockCnt(100)
                     .build();
             productRepository.save(product);
         }
@@ -56,29 +56,28 @@ class ProductRepositoryTest {
                     .productName("테스트 상품 " + i)
                     .price(10000 + i).productDetail("테스트 상품 상세 설명 " + i)
                     .productStatus(ProductStatus.SELL)
-                    .stockCount(100)
+                    .stockCnt(100)
                     .build();
 
             productRepository.save(product);
         });
 
-//        for (int i = 1; i <= 5; i++) {
-//            Product product = Product.builder()
-//                    .productName("테스트 상품 " + i)
-//                    .price(10000 + i).productDetail("테스트 상품 상세 설명 " + i)
-//                    .productStatus(ProductStatus.SELL)
-//                    .stockCount(100)
-//                    .registered_date(LocalDateTime.now())
-//                    .updated_date(LocalDateTime.now()).build();
-//            productRepository.save(product);
-//        }
+        for (int i = 1; i <= 5; i++) {
+            Product product = Product.builder()
+                    .productName("테스트 상품 " + i)
+                    .price(10000 + i).productDetail("테스트 상품 상세 설명 " + i)
+                    .productStatus(ProductStatus.SELL)
+                    .stockCnt(100)
+                    .build();
+            productRepository.save(product);
+        }
 
         for (int i = 6; i <= 10; i++) {
             Product product = Product.builder()
                     .productName("테스트 상품 " + i)
                     .price(10000 + i).productDetail("테스트 상품 상세 설명 " + i)
                     .productStatus(ProductStatus.SOLD_OUT)
-                    .stockCount(100)
+                    .stockCnt(100)
                     .build();
             productRepository.save(product);
         }

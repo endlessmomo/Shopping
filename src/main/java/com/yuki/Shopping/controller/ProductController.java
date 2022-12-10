@@ -21,8 +21,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    @GetMapping(value="/admin/product/new")
-    public String productForm(Model model){
+
+    @GetMapping(value = "/admin/product/new")
+    public String productForm(Model model) {
         model.addAttribute("productFormDto", new ProductFormDto());
         return "/product/productForm";
     }
@@ -30,22 +31,22 @@ public class ProductController {
     @PostMapping(value = "/admin/product/new")
     public String productNew(@Valid ProductFormDto productFormDto
             , BindingResult bindingResult, Model model
-            , @RequestParam("productImgFile") List <MultipartFile> productImgFileList){
+            , @RequestParam("productImgFile") List <MultipartFile> productImgFileList) {
 
         // 상품 등록 시 필수 값이 없다면 다시 상품 등록 페이지로 전환한다.
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "product/productForm";
         }
 
-        if(productImgFileList.get(0).isEmpty() && productFormDto.getId() == null){
+        if (productImgFileList.get(0).isEmpty() && productFormDto.getId() == null) {
             model.addAttribute("errorMessage", "첫번쨰 상품 이미지는 필수 입력 값 입니다.");
             return "product/productForm";
         }
 
-        try{
+        try {
             productService.saveProduct(productFormDto, productImgFileList);
-        } catch ( Exception e){
-            model.addAttribute("errorMessage", " 상품 등록 중 에러가 발생하였습니다.");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "상품 등록 중 에러가 발생하였습니다.");
             return "product/productForm";
         }
 
@@ -53,11 +54,11 @@ public class ProductController {
     }
 
     @GetMapping(value = "/admin/product/{productId}")
-    public String productDtl(@PathVariable("productId") Long productId, Model model){
-        try{
+    public String productDtl(@PathVariable("productId") Long productId, Model model) {
+        try {
             ProductFormDto productFormDto = productService.getProductDtl(productId);
             model.addAttribute("productFormDto", productFormDto);
-        } catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             model.addAttribute("errorMessage", "존재하지 않는 상품입니다.");
             model.addAttribute("productFormDto", new ProductFormDto());
 
@@ -65,5 +66,28 @@ public class ProductController {
         }
 
         return "product/productForm";
+    }
+
+    @PostMapping
+    public String productUpdate(@Valid ProductFormDto productFormDto,
+            BindingResult bindingResult, @RequestParam("productImgFile") List <MultipartFile>
+            productImgFileList, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "product/productForm";
+        }
+
+        if (productImgFileList.get(0).isEmpty() && productFormDto.getId() == null) {
+            model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값 입니다.");
+            return "product/productForm";
+        }
+
+        try{
+            productService.updateProduct(productFormDto, productImgFileList);
+        }catch (Exception e){
+            model.addAttribute("errorMessage", "상품 수정 중 에러가 발생하였습니다.");
+            return "product/productForm";
+        }
+
+        return "redirect:/";
     }
 }

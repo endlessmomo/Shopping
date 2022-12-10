@@ -28,7 +28,7 @@ public class Product extends BaseEntity{
     private int price;
 
     @Column(nullable = false)
-    private int stockCount;
+    private int stockCnt;
 
     @Column(nullable = false)
     private String productDetail;
@@ -39,7 +39,7 @@ public class Product extends BaseEntity{
     public void updateProduct(ProductFormDto productFormDto) {
         this.productName = productFormDto.getProductName();
         this.price = productFormDto.getPrice();
-        this.stockCount = productFormDto.getStockCnt();
+        this.stockCnt = productFormDto.getStockCnt();
         this.productDetail = productFormDto.getProductDetail();
         this.productStatus = productFormDto.getProductStatus();
     }
