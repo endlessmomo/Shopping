@@ -55,7 +55,7 @@ public class ProductImgService {
             String oriImgName = productImgFile.getOriginalFilename();
             String imgName = fileService.uploadFiles(productImgLocation,
                     Objects.requireNonNull(oriImgName), productImgFile.getBytes());
-            String imgUrl = "/images/shop/" + imgName;
+            String imgUrl = "/images/product/" + imgName;
             savedProductImg.updateProductImg(oriImgName, imgName, imgUrl);
         }
     }
