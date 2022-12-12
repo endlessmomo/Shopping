@@ -95,17 +95,26 @@ public class ProductController {
         return "redirect:/";
     }
 
-    @GetMapping(value={"/admin/products", "/admin/products/{page}"})
+    @GetMapping(value = {"/admin/products", "/admin/products/{page}"})
     public String productManage(ProductSearchDto productSearchDto
-            , @PathVariable("page")Optional<Integer> page, Model model){
+            , @PathVariable("page") Optional <Integer> page, Model model) {
         Pageable pageable = PageRequest.of(page.orElse(0), 3);
 
-        Page<Product> products =
+        Page <Product> products =
                 productService.getAdminProductPage(productSearchDto, pageable);
         model.addAttribute("products", products);
         model.addAttribute("productSearchDto", productSearchDto);
         model.addAttribute("maxPage", 5);
 
         return "product/productMng";
+    }
+
+    @GetMapping(value = "/product/{productId}")
+    public String productDtl(Model model
+            , @PathVariable("productId") Long productId) {
+        ProductFormDto productFormDto = productService.getProductDtl(productId);
+        model.addAttribute("product", productFormDto);
+
+        return "product/productDtl";
     }
 }
