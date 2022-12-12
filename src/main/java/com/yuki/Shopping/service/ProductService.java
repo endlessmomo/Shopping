@@ -1,5 +1,6 @@
 package com.yuki.Shopping.service;
 
+import com.yuki.Shopping.dto.MainProductDto;
 import com.yuki.Shopping.dto.ProductFormDto;
 import com.yuki.Shopping.dto.ProductImgDto;
 import com.yuki.Shopping.dto.ProductSearchDto;
@@ -90,6 +91,12 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Page <Product> getAdminProductPage(ProductSearchDto productSearchDto
             , Pageable pageable) {
-    return productRepository.getAdminProductPage(productSearchDto, pageable);
+        return productRepository.getAdminProductPage(productSearchDto, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page <MainProductDto> getMainProductPage(ProductSearchDto productSearchDto,
+            Pageable pageable) {
+        return productRepository.getMainProductPage(productSearchDto, pageable);
     }
 }
