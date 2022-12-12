@@ -2,11 +2,14 @@ package com.yuki.Shopping.service;
 
 import com.yuki.Shopping.dto.ProductFormDto;
 import com.yuki.Shopping.dto.ProductImgDto;
+import com.yuki.Shopping.dto.ProductSearchDto;
 import com.yuki.Shopping.entity.Product;
 import com.yuki.Shopping.entity.ProductImg;
 import com.yuki.Shopping.repository.ProductImgRepository;
 import com.yuki.Shopping.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -72,15 +75,21 @@ public class ProductService {
                 .orElseThrow(EntityNotFoundException::new);
         product.updateProduct(productFormDto);
 
-        List<Long> productImgIds = productFormDto.getProductImgIds();
+        List <Long> productImgIds = productFormDto.getProductImgIds();
 
         // 이미지 등록
-        for(int i = 0 ; i < productImgFileList.size(); i++){
+        for (int i = 0; i < productImgFileList.size(); i++) {
             productImgService.updateProductImg(productImgIds.get(i),
                     productImgFileList.get(i));
         }
 
         System.out.println(product.getId());
         return product.getId();
+    }
+
+    @Transactional(readOnly = true)
+    public Page <Product> getAdminProductPage(ProductSearchDto productSearchDto
+            , Pageable pageable) {
+    return productRepository.getAdminProductPage(productSearchDto, pageable);
     }
 }
