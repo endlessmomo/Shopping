@@ -4,9 +4,12 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yuki.Shopping.constant.ProductStatus;
+import com.yuki.Shopping.dto.MainProductDto;
 import com.yuki.Shopping.dto.ProductSearchDto;
+import com.yuki.Shopping.dto.QMainProductDto;
 import com.yuki.Shopping.entity.Product;
 import com.yuki.Shopping.entity.QProduct;
+import com.yuki.Shopping.entity.QProductImg;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -60,13 +63,45 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
         List <Product> results = queryFactory
                 .selectFrom(QProduct.product)
                 .where(regDtsAfter(productSearchDto.getSearchDateType())
-                , searchSellStatusEq(productSearchDto.getSearchSellStatus())
-                , searchByLike(productSearchDto.getSearchBy(), productSearchDto.getSearchQuery()))
+                        , searchSellStatusEq(productSearchDto.getSearchSellStatus())
+                        , searchByLike(productSearchDto.getSearchBy(), productSearchDto.getSearchQuery()))
                 .orderBy(QProduct.product.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         return new PageImpl <>(results, pageable, results.size());
+    }
+
+    private BooleanExpression productNameLike(String searchQuery) {
+        return StringUtils.isEmpty(searchQuery) ? null
+                : QProduct.product.productName.like("%" + searchQuery + "%");
+    }
+
+    @Override
+    public Page <MainProductDto> getMainProductPage(ProductSearchDto productSearchDto, Pageable pageable) {
+        QProduct product = QProduct.product;
+        QProductImg productImg = QProductImg.productImg;
+
+        List <MainProductDto> content = queryFactory.
+                select(
+                        new QMainProductDto(
+                                product.id,
+                                product.productName,
+                                product.productDetail,
+                                productImg.imgUrl,
+                                product.price
+                        )
+                )
+                .from(productImg)
+                .join(productImg.product, product)
+                .where(productImg.repImgYn.eq("Y"))
+                .where(productNameLike(productSearchDto.getSearchQuery()))
+                .orderBy(product.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return new PageImpl <>(content, pageable, content.size());
     }
 }
