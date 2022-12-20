@@ -2,6 +2,7 @@ package com.yuki.Shopping.entity;
 
 import com.yuki.Shopping.constant.ProductStatus;
 import com.yuki.Shopping.dto.ProductFormDto;
+import com.yuki.Shopping.exception.OutOfStockException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Product extends BaseEntity{
+public class Product extends BaseEntity {
     @Id
     @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,5 +43,13 @@ public class Product extends BaseEntity{
         this.stockCnt = productFormDto.getStockCnt();
         this.productDetail = productFormDto.getProductDetail();
         this.productStatus = productFormDto.getProductStatus();
+    }
+
+    public void removeStock(int stockCnt) {
+        int restStock = this.stockCnt - stockCnt;
+        if(restStock<0){
+            throw new OutOfStockException("상품의 재고가 부족합니다. (현재 재고 수량 : " + this.stockCnt + ")");
+        }
+        this.stockCnt = restStock;
     }
 }

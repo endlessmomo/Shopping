@@ -18,10 +18,9 @@ public interface ProductRepository extends JpaRepository <Product,Long>
 
     List <Product> findByPriceLessThanOrderByPriceAsc(Integer price);
 
-    @Query("select p from Product p where p.productDetail like %:productDetail% order by p.price desc")
+    @Query(value = "select p from Product p where p.productDetail like %:productDetail% order by p.price desc")
     List <Product> findByProductDetail(@Param("productDetail") String productDetail);
 
     @Query(value = "select * from product p where p.product_detail like %:productDetail% order by p.price desc", nativeQuery = true)
     List <Product> findByProductDetailByNative(@Param("productDetail") String productDetail);
-
 }
